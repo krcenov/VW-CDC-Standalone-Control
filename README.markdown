@@ -23,7 +23,7 @@ This project provides an Arduino-based solution for controlling a CD changer dev
 - Bit-level communication protocol for sending commands to the CD changer.
 
 ## Hardware Requirements
-- Arduino board (e.g., Arduino Uno, Mega, etc.).
+- Arduino board (e.g., Arduino Uno, Mega, etc.). (TESTED ON MEGA2560)
 - CD changer device compatible with the command protocol. tested with(1J0035111)
 - Connection wire from Arduino pin 22 (data output) to the CD changer's input (brown wire Pin4 of CDC Connector).
 - USB cable for Arduino programming and serial communication.
