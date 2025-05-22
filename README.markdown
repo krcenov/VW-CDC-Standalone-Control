@@ -1,6 +1,6 @@
 # Arduino CD Changer Emulator for 1J0035111
 
-This project implements an Arduino-based emulator for the 1J0035111 CD changer, communicating over a custom SPI-like protocol. The emulator sends commands to control the CD changer (e.g., play, next track, change disk) and processes responses to decode and display status information, such as mode, track number, and playback time. The project includes an Arduino sketch (`CDC.ino`) tested on the Arduino Mega 2560 and a logic analyzer capture (`LOGIC 2 Capture.sal`) for analyzing the communication protocol.
+This project implements an Arduino-based emulator for the 1J0035111 CD changer, communicating over a custom SPI-like protocol. The emulator sends commands to control the CD changer (e.g., play, next track, change disk) and processes responses to decode and display status information, such as mode, track number, and playback time. The project includes an Arduino sketch (`CDC.ino`) tested on the Arduino Mega 2560, a logic analyzer capture (`LOGIC 2 Capture.sal`) for protocol analysis, and a wiring diagram (`Wiring.png`).
 
 ## Project Overview
 
@@ -10,7 +10,7 @@ The Arduino sketch (`CDC.ino`) is designed to:
 - Provide a serial interface for user interaction via a menu-driven system.
 - Handle synchronization, error detection, and SPI restarts for reliable communication.
 
-The logic analyzer capture (`LOGIC 2 Capture.sal`) contains recordings of the clock (`clk`) and data output (`DATA out`) signals, useful for debugging and understanding the protocol's timing.
+The logic analyzer capture (`LOGIC 2 Capture.sal`) contains recordings of the clock (`clk`) and data output (`DATA out`) signals. The `Wiring.png` file illustrates the connections between the Arduino Mega 2560 and the CD changer.
 
 ## Files
 
@@ -20,6 +20,7 @@ The logic analyzer capture (`LOGIC 2 Capture.sal`) contains recordings of the cl
   - A serial menu for sending commands.
   - Packet decoding and status printing for CD changer responses.
 - **LOGIC 2 Capture.sal**: A Saleae Logic 2 capture file with clock and data output signals, for protocol analysis using Saleae Logic software.
+- **Wiring.png**: A diagram showing the wiring connections between the Arduino Mega 2560 and the 1J0035111 CD changer.
 
 ## Hardware Requirements
 
@@ -30,6 +31,7 @@ The logic analyzer capture (`LOGIC 2 Capture.sal`) contains recordings of the cl
   - SPI pins:
     - `MOSI` (pin 51): Input to Arduino from CD changer.
     - `SCK` (pin 52): Clock input from CD changer.
+  - Refer to `Wiring.png` for detailed connection instructions.
 - **Logic Analyzer** (optional): For analyzing `LOGIC 2 Capture.sal` (e.g., Saleae Logic 2).
 
 ## Setup Instructions
@@ -39,9 +41,10 @@ The logic analyzer capture (`LOGIC 2 Capture.sal`) contains recordings of the cl
    - Ensure the `SPI` library is available (included by default).
 
 2. **Connect Hardware**:
-   - Wire the Arduino Mega 2560 to the 1J0035111 CD changer:
+   - Wire the Arduino Mega 2560 to the 1J0035111 CD changer as shown in `Wiring.png`:
      - Pin 22 (`dataout`) to the CD changer's command input.
-     - `MISO` (pin 50), `MOSI` (pin 51), and `SCK` (pin 52) to the corresponding SPI lines.
+     - `MOSI` (pin 51) to the CD changer's data output.
+     - `SCK` (pin 52) to the CD changer's clock line.
    - Ensure the CD changer is powered and connected.
 
 3. **Load the Sketch**:
@@ -79,6 +82,7 @@ The logic analyzer capture (`LOGIC 2 Capture.sal`) contains recordings of the cl
   - Verify bit-banged command timing (e.g., `Send0`, `Send1`).
   - Analyze SPI response packets.
   - Debug synchronization issues.
+- **Wiring Reference**: Consult `Wiring.png` to verify connections between the Arduino and CD changer.
 
 ## Protocol Details
 
@@ -99,8 +103,8 @@ The logic analyzer capture (`LOGIC 2 Capture.sal`) contains recordings of the cl
 ## Troubleshooting
 
 - **No Response**:
-  - Verify wiring to the 1J0035111 CD changer.
-  - Check SPI pins (50, 51, 52) and power.
+  - Verify wiring using `Wiring.png`.
+  - Check SPI pins (51, 52) and power to the CD changer.
   - Use the logic analyzer to confirm command timing.
 - **Garbled Output**:
   - Set Serial Monitor baud rate to `250000`.
@@ -120,7 +124,7 @@ Contributions are welcome! To contribute:
 
 Include:
 - A description of changes.
-- Updates to `LOGIC 2 Capture.sal` if protocol timing changes.
+- Updates to `LOGIC 2 Capture.sal` or `Wiring.png` if applicable.
 - Validation steps for new features.
 
 ## License
