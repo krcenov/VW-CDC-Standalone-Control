@@ -38,6 +38,17 @@ The logic analyzer capture (`LOGIC 2 Capture.sal`) contains recordings of the cl
 - **Logic Analyzer** (optional): For analyzing `LOGIC 2 Capture.sal` (e.g., Saleae Logic 2).
 - **LCD Display** (optional): I2C LCD (address 0x3F, 8x2) for status display, enabled by setting `LcdPresent` to 1.
 
+## Connections
+
+The following diagram illustrates the wiring between the Arduino Mega 2560 and the 1J0035111 CD changer:
+
+![Wiring Diagram](images/Wiring.png)
+
+Ensure all connections match the diagram to establish proper communication. The diagram details the connections for:
+- `dataout` (pin 22) to the CD changer's Remote.
+- `MOSI` (pin 51) to the CD changer's CD Data.
+- `SCK` (pin 52) to the CD changer's CD Clock.
+
 ## Setup Instructions
 
 1. **Install Arduino IDE**:
@@ -90,7 +101,7 @@ The logic analyzer capture (`LOGIC 2 Capture.sal`) contains recordings of the cl
   - Verify bit-banged command timing (e.g., `Send0`: 560µs, `Send1`: 1680µs).
   - Analyze SPI response packets.
   - Debug synchronization issues.
-- **Wiring Reference**: Consult `Wiring.png` to verify connections between the Arduino and CD changer.
+  - **Wiring Reference**: Refer to `Wiring.png` in the [Connections](#connections) section for detailed wiring instructions.
 
 ## Protocol Details
 
