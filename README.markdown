@@ -101,7 +101,7 @@ Ensure all connections match the diagram to establish proper communication. The 
   - Verify bit-banged command timing (e.g., `Send0`: 560µs, `Send1`: 1680µs).
   - Analyze SPI response packets.
   - Debug synchronization issues.
-  - **Wiring Reference**: Refer to `Wiring.png` in the [Connections](#connections) section for detailed wiring instructions.
+- **Wiring Reference**: Refer to `Wiring.png` in the [Connections](#connections) section for detailed wiring instructions.
 
 ## Protocol Details
 
