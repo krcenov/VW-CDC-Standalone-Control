@@ -28,7 +28,6 @@ The logic analyzer capture (`LOGIC 2 Capture.sal`) contains recordings of the cl
 - **Wiring**:
   - `dataout` (pin 22): Connect to the CD changer's command input.
   - SPI pins:
-    - `MISO` (pin 50): Output from Arduino to CD changer.
     - `MOSI` (pin 51): Input to Arduino from CD changer.
     - `SCK` (pin 52): Clock input from CD changer.
 - **Logic Analyzer** (optional): For analyzing `LOGIC 2 Capture.sal` (e.g., Saleae Logic 2).
