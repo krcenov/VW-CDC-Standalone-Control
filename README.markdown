@@ -85,7 +85,7 @@ Ensure all connections match the diagram to establish proper communication. The 
 - **Serial Menu**: After initialization, the Serial Monitor displays a menu. Enter a number (1–9) to execute commands:
   - `1`: Power OFF (init command).
   - `2`: Power ON (`PowerOnCMD` sent twice with `ACK`).
-  - `3`: NextDisk (`NextDisk` and `SelectDisk`).
+  - `3`: NextDisk (`NextDiskCMD` and `SelectDiskCMD`).
   - `4`: Previous Track (`PrevTrackCMD`).
   - `5`: Next Track (`NextTrackCMD`).
   - `6`: Scan (`ScanCMD`).

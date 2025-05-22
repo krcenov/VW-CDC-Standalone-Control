@@ -164,7 +164,7 @@ void NextDisk() {
   delay(93);
   send4CMD(ACK);
   delay(93);
-  send4CMD(SelectDisk);
+  send4CMD(SelectDiskCMD);
   delay(93);
   send4CMD(ACK);
   delay(93);
@@ -176,7 +176,7 @@ void NextDisk() {
 //   delay(93);
 //   send4CMD(ACK);
 //   delay(93);
-//   send4CMD(SelectDisk);
+//   send4CMD(SelectDiskCMD);
 //   delay(93);
 //   send4CMD(ACK);
 //   delay(93);
