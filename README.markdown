@@ -1,97 +1,135 @@
-# CD Changer Controller
+# Arduino CD Changer Emulator for 1J0035111
 
-This project provides an Arduino-based solution for controlling a CD changer device using serial commands. The code sends specific 4-byte commands to the CD changer to perform actions such as initializing the device, powering it on, selecting discs, playing tracks, and more.
+This project implements an Arduino-based emulator for the 1J0035111 CD changer, communicating over a custom SPI-like protocol. The emulator sends commands to control the CD changer (e.g., play, next track, change disk) and processes responses to decode and display status information, such as mode, track number, and playback time. The project includes an Arduino sketch (`CDC.ino`) tested on the Arduino Mega 2560 and a logic analyzer capture (`LOGIC 2 Capture.sal`) for analyzing the communication protocol.
 
-## Table of Contents
-- [Features](#features)
-- [Hardware Requirements](#hardware-requirements)
-- [Software Requirements](#software-requirements)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Command Reference](#command-reference)
-- [File Descriptions](#file-descriptions)
-- [Contributing](#contributing)
-- [License](#license)
+## Project Overview
 
-## Features
-- Initialize and de-initialize the CD changer.
-- Power on the device.
-- Select between different discs (e.g., Disc 1 or Disc 2).
-- Navigate tracks (next/previous).
-- Play, scan, and mix tracks.
-- Interactive serial monitor menu for easy command execution.
-- Bit-level communication protocol for sending commands to the CD changer.
+The Arduino sketch (`CDC.ino`) is designed to:
+- Send 4-byte commands to the 1J0035111 CD changer using bit-banged signaling on a designated output pin (`dataout`).
+- Receive and process 8-byte response packets over SPI, decoding fields like CD number, track number, playback time, and changer state.
+- Provide a serial interface for user interaction via a menu-driven system.
+- Handle synchronization, error detection, and SPI restarts for reliable communication.
+
+The logic analyzer capture (`LOGIC 2 Capture.sal`) contains recordings of the clock (`clk`) and data output (`DATA out`) signals, useful for debugging and understanding the protocol's timing.
+
+## Files
+
+- **CDC.ino**: The main Arduino sketch for the CD changer emulator. It includes:
+  - Command definitions (e.g., `PlayCMD`, `NextTrackCMD`).
+  - SPI communication setup and interrupt-driven data processing.
+  - A serial menu for sending commands.
+  - Packet decoding and status printing for CD changer responses.
+- **LOGIC 2 Capture.sal**: A Saleae Logic 2 capture file with clock and data output signals, for protocol analysis using Saleae Logic software.
 
 ## Hardware Requirements
-- Arduino board (e.g., Arduino Uno, Mega, etc.). (TESTED ON MEGA2560)
-- CD changer device compatible with the command protocol. (TESTED ON 1J0035111)
-- Connection wire from Arduino pin 22 (data output) to the CD changer's input (brown wire Pin4 of CDC Connector).
-- USB cable for Arduino programming and serial communication.
 
-## Software Requirements
-- [Arduino IDE](https://www.arduino.cc/en/software) (or compatible IDE).
-- Serial monitor for interacting with the Arduino (included in Arduino IDE).
+- **Arduino Mega 2560**: Tested and confirmed compatible.
+- **CD Changer**: Model 1J0035111.
+- **Wiring**:
+  - `dataout` (pin 22): Connect to the CD changer's command input.
+  - SPI pins:
+    - `MISO` (pin 50): Output from Arduino to CD changer.
+    - `MOSI` (pin 51): Input to Arduino from CD changer.
+    - `SCK` (pin 52): Clock input from CD changer.
+- **Logic Analyzer** (optional): For analyzing `LOGIC 2 Capture.sal` (e.g., Saleae Logic 2).
 
-## Installation
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/yourusername/cd-changer-controller.git
-   ```
-2. **Open the Project**:
-   - Launch the Arduino IDE.
-   - Open the `CDC.ino` file from the cloned repository.
-3. **Connect the Arduino**:
-   - Connect your Arduino board to your computer via USB.
-   - Ensure the correct board and port are selected in the Arduino IDE (Tools > Board and Tools > Port).
-4. **Upload the Code**:
-   - Click the "Upload" button in the Arduino IDE to compile and upload the code to the Arduino.
-5. **Open the Serial Monitor**:
-   - In the Arduino IDE, go to Tools > Serial Monitor.
-   - Set the baud rate to `9600` and ensure the line ending is set to "Newline".
+## Setup Instructions
+
+1. **Install Arduino IDE**:
+   - Download and install the [Arduino IDE](https://www.arduino.cc/en/software).
+   - Ensure the `SPI` library is available (included by default).
+
+2. **Connect Hardware**:
+   - Wire the Arduino Mega 2560 to the 1J0035111 CD changer:
+     - Pin 22 (`dataout`) to the CD changer's command input.
+     - `MISO` (pin 50), `MOSI` (pin 51), and `SCK` (pin 52) to the corresponding SPI lines.
+   - Ensure the CD changer is powered and connected.
+
+3. **Load the Sketch**:
+   - Open `CDC.ino` in the Arduino IDE.
+   - Select `Arduino Mega 2560` under `Tools > Board` and the correct port under `Tools > Port`.
+   - Upload the sketch.
+
+4. **Interact with the Emulator**:
+   - Open the Serial Monitor (`Tools > Serial Monitor`).
+   - Set the baud rate to `250000`.
+   - Use the menu to send commands (e.g., `2` for Power ON, `9` for Play).
+   - View decoded CD changer status packets in the Serial Monitor.
+
+5. **Analyze the Protocol (Optional)**:
+   - Install [Saleae Logic 2](https://www.saleae.com/downloads/).
+   - Open `LOGIC 2 Capture.sal` to analyze clock and data signals for timing and debugging.
 
 ## Usage
-1. **Initial Setup**:
-   - Upon uploading the code, the Arduino automatically runs the `Init()` and `powerOn()` functions to initialize and power on the CD changer.
-   - After a 10-second delay, the serial monitor displays a command menu.
-2. **Interacting with the Menu**:
-   - The serial monitor shows a menu with options (1–9) corresponding to different commands.
-   - Enter a number (e.g., `1` for Initialize, `9` for Play) and press Enter.
-   - The Arduino executes the selected command and redisplays the menu.
-3. **Example**:
-   - To play a track, type `9` in the serial monitor and press Enter.
-   - To switch to Disc 2, type `4` and press Enter.
 
-## Command Reference
-The following commands are supported, as defined in `commands sniff.txt` and implemented in `CDC.ino`:
+- **Serial Menu**: After initialization, the Serial Monitor displays a menu. Enter a number (1–9) to execute commands:
+  - `1`: Power OFF (init command).
+  - `2`: Power ON.
+  - `3`: Select Disc 1.
+  - `4`: Select Disc 2.
+  - `5`: Previous Track.
+  - `6`: Next Track.
+  - `7`: Scan.
+  - `8`: Mix (next track and play).
+  - `9`: Play.
+- **Output**: The Serial Monitor shows:
+  - Command execution confirmation (e.g., "Executing Play Command").
+  - Decoded packets with mode, CD number, track number, time, and CDC state.
+  - Debugging info (e.g., buffer contents) on errors.
+- **Logic Analyzer**: Use `LOGIC 2 Capture.sal` to:
+  - Verify bit-banged command timing (e.g., `Send0`, `Send1`).
+  - Analyze SPI response packets.
+  - Debug synchronization issues.
 
-| Command         | Description                              | Byte Sequence (Hex)       | Timing              |
-|-----------------|------------------------------------------|---------------------------|---------------------|
-| Init            | Initializes the CD changer              | `F7 08 34 CA`, `D7 28 34 CA` | 144ms, 6500ms, 144ms |
-| PowerOn         | Powers on the CD changer                | `D8 27 34 CA`, `D7 28 34 CA` | 93ms intervals      |
-| Change Disk 1   | Selects Disc 1                          | `CF 31 34 CA`, `D7 28 34 CA`, `E3 1C 34 CA` | 93ms intervals |
-| Change Disk 2   | Selects Disc 2                          | `CE 30 34 CA`, `D7 28 34 CA`, `E3 1C 34 CA` | 93ms intervals |
-| Next Track      | Plays the next track                    | `E0 1F 34 CA`, `D7 28 34 CA` | 93ms intervals      |
-| Previous Track  | Plays the previous track                | `E1 1E 34 CA`, `D7 28 34 CA` | 93ms intervals      |
-| Scan            | Scans tracks (untested)                 | `FA 05 34 CA`, `D7 28 34 CA` | 93ms intervals      |
-| Mix             | Plays next track and plays (untested)   | `E0 1F 34 CA`, `F9 06 34 CA` | 93ms intervals      |
-| Play            | Plays the current track                 | `F9 06 34 CA`, `D7 28 34 CA` | 93ms intervals      |
-| DeInit          | De-initializes (same as Init)           | `F7 08 34 CA`, `D7 28 34 CA` | 93ms intervals      |
+## Protocol Details
 
-**Note**: Some commands (e.g., Scan, Mix, Next/Prev Track) are marked as untested in the code and may require further validation.
+- **Command Format**:
+  - 4-byte sequences sent via bit-banging on `dataout`.
+  - Preceded by `StartComm` and followed by `ACK`.
+  - Timing: 560µs for `Send0`, 1680µs for `Send1`.
+- **Response Packets**:
+  - 8-byte packets via SPI.
+  - Fields: Mode (`CDC_MODE_*`), CD Number, Track Number, Time (minutes/seconds), CDC State (`CDC_STATE_*`).
+  - Decoded in `decodeAndPrintPacket`.
+- **SPI Configuration**:
+  - Mode 1 (CPOL=0, CPHA=1).
+  - MSB-first, interrupt-driven.
+  - Buffer: 32 bytes (4 packets).
+  - Timeout: 5000ms for resync.
 
-## File Descriptions
-- **CDC.ino**: The main Arduino sketch that defines the command sequences, communication protocol, and serial menu interface.
-- **commands sniff.txt**: A reference file containing the sniffed command sequences and their timings, used to develop the Arduino code.
+## Troubleshooting
+
+- **No Response**:
+  - Verify wiring to the 1J0035111 CD changer.
+  - Check SPI pins (50, 51, 52) and power.
+  - Use the logic analyzer to confirm command timing.
+- **Garbled Output**:
+  - Set Serial Monitor baud rate to `250000`.
+  - Check for buffer overflows via `printBuffer`.
+- **Alignment Loss**:
+  - The sketch restarts SPI on alignment loss or timeout.
+  - Use `LOGIC 2 Capture.sal` for diagnosis.
 
 ## Contributing
-Contributions are welcome! Please follow these steps:
+
+Contributions are welcome! To contribute:
 1. Fork the repository.
-2. Create a new branch (`git checkout -b feature/your-feature`).
-3. Make your changes and commit (`git commit -m "Add your feature"`).
-4. Push to the branch (`git push origin feature/your-feature`).
+2. Create a feature branch (`git checkout -b feature/YourFeature`).
+3. Commit changes (`git commit -m "Add YourFeature"`).
+4. Push to the branch (`git push origin feature/YourFeature`).
 5. Open a pull request.
 
-Please ensure your code follows the existing style and includes appropriate comments.
+Include:
+- A description of changes.
+- Updates to `LOGIC 2 Capture.sal` if protocol timing changes.
+- Validation steps for new features.
 
 ## License
+
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- Tested with the 1J0035111 CD changer.
+- Developed for the Arduino Mega 2560.
+- Uses Saleae Logic 2 for protocol analysis.
