@@ -31,7 +31,7 @@ The logic analyzer capture (`LOGIC 2 Capture.sal`) contains recordings of the cl
   - SPI pins:
     - `MOSI` (pin 51): Input to Arduino from CD changer.
     - `SCK` (pin 52): Clock input from CD changer.
-  - Refer to `Wiring.png` for detailed connection instructions.
+  - Refer to `Wiring.png` in the [Connections](#connections) section for detailed wiring instructions.
 - **Logic Analyzer** (optional): For analyzing `LOGIC 2 Capture.sal` (e.g., Saleae Logic 2).
 
 ## Setup Instructions
@@ -62,6 +62,17 @@ The logic analyzer capture (`LOGIC 2 Capture.sal`) contains recordings of the cl
    - Install [Saleae Logic 2](https://www.saleae.com/downloads/).
    - Open `LOGIC 2 Capture.sal` to analyze clock and data signals for timing and debugging.
 
+## Connections
+
+The following diagram illustrates the wiring between the Arduino Mega 2560 and the 1J0035111 CD changer:
+
+![Wiring Diagram](Wiring.png)
+
+Ensure all connections match the diagram to establish proper communication. The diagram details the connections for:
+- `dataout` (pin 22) to the CD changer's Remote.
+- `MOSI` (pin 51) to the CD changer's CD Data.
+- `SCK` (pin 52) to the CD changer's CD Clock.
+
 ## Usage
 
 - **Serial Menu**: After initialization, the Serial Monitor displays a menu. Enter a number (1–9) to execute commands:
@@ -82,7 +93,7 @@ The logic analyzer capture (`LOGIC 2 Capture.sal`) contains recordings of the cl
   - Verify bit-banged command timing (e.g., `Send0`, `Send1`).
   - Analyze SPI response packets.
   - Debug synchronization issues.
-- **Wiring Reference**: Consult `Wiring.png` to verify connections between the Arduino and CD changer.
+- **Wiring Reference**: Consult `Wiring.png` in the [Connections](#connections) section to verify connections.
 
 ## Protocol Details
 
