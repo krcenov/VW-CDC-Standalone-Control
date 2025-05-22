@@ -85,13 +85,12 @@ Ensure all connections match the diagram to establish proper communication. The 
 - **Serial Menu**: After initialization, the Serial Monitor displays a menu. Enter a number (1–9) to execute commands:
   - `1`: Power OFF (init command).
   - `2`: Power ON (`PowerOnCMD` sent twice with `ACK`).
-  - `3`: Select Disc 1 (`ChangeDisk1` and `SelectDisk`).
-  - `4`: Select Disc 2 (`ChangeDisk2` and `SelectDisk`).
-  - `5`: Previous Track (`PrevTrackCMD`).
-  - `6`: Next Track (`NextTrackCMD`).
-  - `7`: Scan (`ScanCMD`).
-  - `8`: Mix (next track and play, `NextTrackCMD` + `PlayCMD`).
-  - `9`: Play (`PlayCMD`).
+  - `3`: NextDisk (`NextDisk` and `SelectDisk`).
+  - `4`: Previous Track (`PrevTrackCMD`).
+  - `5`: Next Track (`NextTrackCMD`).
+  - `6`: Scan (`ScanCMD`).
+  - `7`: Mix (next track and play, `NextTrackCMD` + `PlayCMD`).
+  - `8`: Play (`PlayCMD`).
 - **Output**: The Serial Monitor shows:
   - Command execution confirmation (e.g., "Executing Play Command").
   - Decoded packets with mode (`CDC_MODE_*`), CD number, track number, time (minutes/seconds), and CDC state (`CDC_STATE_*`) when `debug` is enabled.

@@ -27,13 +27,13 @@ const int dataout = 22; // Output pin for command bit-banging
 byte ScanCMD[] =        {0xCA, 0x34, 0x05, 0xFA};
 byte PlayCMD[] =        {0xCA, 0x34, 0x06, 0xF9};
 byte initCMD[] =        {0xCA, 0x34, 0x08, 0xF7};
-byte SelectDisk[] =     {0xCA, 0x34, 0x1C, 0xE3};
+byte SelectDiskCMD[] =     {0xCA, 0x34, 0x1C, 0xE3};
 byte PrevTrackCMD[] =   {0xCA, 0x34, 0x1E, 0xE1};
 byte NextTrackCMD[] =   {0xCA, 0x34, 0x1F, 0xE0};
 byte PowerOnCMD[] =     {0xCA, 0x34, 0x27, 0xD8};
 byte ACK[] =            {0xCA, 0x34, 0x28, 0xD7};
-byte ChangeDisk2[] =    {0xCA, 0x34, 0x30, 0xCE};
-byte ChangeDisk1[] =    {0xCA, 0x34, 0x31, 0xCF};
+//byte ChangeDisk2[] =    {0xCA, 0x34, 0x30, 0xCE};
+byte NextDiskCMD[] =    {0xCA, 0x34, 0x31, 0xCF};
 
 const int CMDSize = 4;
 
@@ -158,9 +158,9 @@ void powerOn() {
   send4CMD(ACK);
 }
 
-void SelectDisc1() {
+void NextDisk() {
   Serial.println("Executing ChangeDisk1 Command");
-  send4CMD(ChangeDisk1);
+  send4CMD(NextDiskCMD);
   delay(93);
   send4CMD(ACK);
   delay(93);
@@ -170,17 +170,17 @@ void SelectDisc1() {
   delay(93);
 }
 
-void SelectDisc2() {
-  Serial.println("Executing ChangeDisk2 Command");
-  send4CMD(ChangeDisk2);
-  delay(93);
-  send4CMD(ACK);
-  delay(93);
-  send4CMD(SelectDisk);
-  delay(93);
-  send4CMD(ACK);
-  delay(93);
-}
+// void SelectDisc2() {
+//   Serial.println("Executing ChangeDisk2 Command");
+//   send4CMD(ChangeDisk2);
+//   delay(93);
+//   send4CMD(ACK);
+//   delay(93);
+//   send4CMD(SelectDisk);
+//   delay(93);
+//   send4CMD(ACK);
+//   delay(93);
+// }
 
 void NextTrack() {
   Serial.println("Executing NextTrack Command");
@@ -328,13 +328,13 @@ void displayMenu() {
   Serial.println("\n=== Command Menu ===");
   Serial.println("1. Power OFF");
   Serial.println("2. Power ON");
-  Serial.println("3. Prev CD");
-  Serial.println("4. Next CD");
-  Serial.println("5. Previous Track");
-  Serial.println("6. Next Track");
-  Serial.println("7. Scan");
-  Serial.println("8. Mix");
-  Serial.println("9. Play");
+  // Serial.println("3. Prev CD");
+  Serial.println("3. Next CD");
+  Serial.println("4. Previous Track");
+  Serial.println("5. Next Track");
+  Serial.println("6. Scan");
+  Serial.println("7. Mix");
+  Serial.println("8. Play");
   Serial.println("Enter the number of the command to execute:");
 }
 
@@ -470,13 +470,13 @@ void loop() {
       switch (choice) {
         case 1: InitCmd(); break;
         case 2: powerOn(); break;
-        case 3: SelectDisc1(); break;
-        case 4: SelectDisc2(); break;
-        case 5: PrevTrack(); break;
-        case 6: NextTrack(); break;
-        case 7: Scan(); break;
-        case 8: Mix(); break;
-        case 9: Play(); break;
+        // case 3: SelectDisc1(); break;
+        case 3: NextDisk(); break;
+        case 4: PrevTrack(); break;
+        case 5: NextTrack(); break;
+        case 6: Scan(); break;
+        case 7: Mix(); break;
+        case 8: Play(); break;
         default:
           Serial.println("Invalid choice. Please enter a number between 1 and 9.");
           break;
