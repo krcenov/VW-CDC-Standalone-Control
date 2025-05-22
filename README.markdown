@@ -1,4 +1,4 @@
-# Arduino CD Changer Emulator for 1J0035111
+# Arduino Multimedia Emulator for CD Changer 1J0035111
 
 This project implements an Arduino-based emulator for the 1J0035111 CD changer, communicating over a custom SPI-like protocol. The emulator sends commands to control the CD changer (e.g., play, next track, change disk) and processes responses to decode and display status information, such as mode, track number, and playback time. The project includes an Arduino sketch (`CDC.ino`) tested on the Arduino Mega 2560, a logic analyzer capture (`LOGIC 2 Capture.sal`) for protocol analysis, and a wiring diagram (`Wiring.png`).
 
