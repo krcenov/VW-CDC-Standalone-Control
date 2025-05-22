@@ -66,7 +66,7 @@ The logic analyzer capture (`LOGIC 2 Capture.sal`) contains recordings of the cl
 
 The following diagram illustrates the wiring between the Arduino Mega 2560 and the 1J0035111 CD changer:
 
-![Wiring Diagram](Wiring.png)
+![Wiring Diagram](images/Wiring.png)
 
 Ensure all connections match the diagram to establish proper communication. The diagram details the connections for:
 - `dataout` (pin 22) to the CD changer's Remote.
