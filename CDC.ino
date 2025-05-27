@@ -339,7 +339,7 @@ void displayMenu() {
 }
 
 void lcdWrite(const char *format, ...) {
-  #if debug
+  #if debug && LcdPresent
     char buffer[17]; // Buffer for 16 chars + null terminator
     va_list args;
     va_start(args, format);
